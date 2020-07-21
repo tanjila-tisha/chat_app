@@ -3,9 +3,9 @@ import React from "react";
 class ChatInput extends React.Component {
   state = { message: "" };
 
-  componentDidMount(){
-    this.nameInput.focus(); 
- }
+  componentDidMount() {
+    this.nameInput.focus();
+  }
 
   inputHandler = (event) => {
     this.setState({ message: event.target.value });
@@ -14,15 +14,17 @@ class ChatInput extends React.Component {
   submitHandler = (event) => {
     event.preventDefault();
     this.props.addMessage(this.state.message);
-    this.setState({ message: ''});
+    this.setState({ message: "" });
   };
 
   render() {
     return (
-      <div >
+      <div>
         <form onSubmit={this.submitHandler} className="send-message-form">
-          <input 
-            ref={(input) => { this.nameInput = input; }} 
+          <input
+            ref={(input) => {
+              this.nameInput = input;
+            }}
             placeholder="Aa"
             type="text"
             className="input-text"
