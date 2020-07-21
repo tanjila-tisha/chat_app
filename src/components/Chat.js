@@ -2,50 +2,75 @@ import React from "react";
 import ChatHeader from "./ChatHeader";
 import MsgList from "./MsgList";
 import ChatInput from "./ChatInput";
+import {
+  getCustomerSupportName,
+  getCustomerName,
+  getTime,
+  getRandomAnswer,
+} from "../helper";
 
 class Chat extends React.Component {
-
-    state = {expand : false, messages : [] };
-
-    toggle=()=>{
-        this.setState({expand : !this.state.expand});
+  constructor(props) {
+    super(props);
+    this.state = {
+      expand: true,
+      messages: [
+        this.generateChatMessage(
+          0,
+          getCustomerSupportName(),
+          "How can I help you!"
+        ),
+      ],
     };
+  }
 
-    addMessage=(msg)=>{
-        const { messages } = this.state;
-         const newMessage = {
-            mid : parseInt(messages.length) + 1,
-            sender: 'Tisha',
-            message: msg,
-         };
-         
-        this.setState({messages : [...messages, newMessage]});
-        setTimeout(()=>{
-            const { messages } = this.state;
-            const replyMessage={
-                mid : parseInt(messages.length) + 1 ,
-                sender: 'Takim',
-                message: 'Ok',
-             };
+  toggle = () => {
+    this.setState({ expand: !this.state.expand });
+  };
 
-             this.setState({messages : [...messages, replyMessage]});
-
-        }, 700);
+  generateChatMessage = (length, name, msg) => {
+    const newMessage = {
+      mid: parseInt(length) + 1,
+      sender: name,
+      message: msg,
+      time: getTime(),
     };
+    return newMessage;
+  };
+
+  addMessage = (msg) => {
+    const { messages } = this.state;
+    const newMessage = this.generateChatMessage(
+      messages.length,
+      getCustomerName(),
+      msg
+    );
+
+    this.setState({ messages: [...messages, newMessage] });
+    setTimeout(() => {
+      const { messages } = this.state;
+      const replyMessage = this.generateChatMessage(
+        messages.length,
+        getCustomerSupportName(),
+        getRandomAnswer()
+      );
+
+      this.setState({ messages: [...messages, replyMessage] });
+    }, 700);
+  };
 
   render() {
-    const {expand , messages}  = this.state;
-    
+    const { expand, messages } = this.state;
+
     return (
       <div className="chat-container">
-        <ChatHeader toggle={this.toggle} />
+        <ChatHeader expand={expand} toggle={this.toggle} />
         {expand && (
-            <div>
-            <MsgList messages={messages}/>
-            <ChatInput addMessage={this.addMessage}/>
-            </div>
+          <div>
+            <MsgList messages={messages} />
+            <ChatInput addMessage={this.addMessage} />
+          </div>
         )}
-        
       </div>
     );
   }
