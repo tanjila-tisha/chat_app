@@ -12,6 +12,7 @@ const MsgList = (props) => {
           </li>
         );
       })}
+      <li id="end"></li>
     </ul>
   );
 };

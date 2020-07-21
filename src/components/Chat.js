@@ -57,6 +57,9 @@ class Chat extends React.Component {
 
       this.setState({ messages: [...messages, replyMessage] });
     }, 700);
+
+    // focusing end of the message list for scroll down
+    document.getElementById("end").scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});;
   };
 
   render() {
